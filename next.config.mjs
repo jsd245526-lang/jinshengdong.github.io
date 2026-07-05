@@ -4,6 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  basePath: '/jinshengdong.github.io',
+  assetPrefix: '/jinshengdong.github.io',
   trailingSlash: true,
 };
 
