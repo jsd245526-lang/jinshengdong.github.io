@@ -45,7 +45,7 @@ export const siteContent = {
         {
           year: '2026',
           title: 'AI + 机械交叉实践',
-          desc: '首个 AI 辅助机械课程设计落地，获全国机械创新设计大赛一等奖',
+          desc: '首个 AI 辅助机械课程设计落地，同年获全国机械创新设计大赛一等奖',
           status: 'done',
         },
         {
@@ -300,7 +300,7 @@ export const siteContent = {
         {
           year: '2026',
           title: 'AI + Mechanical Crossover',
-          desc: 'First AI-assisted mechanical design project; National 1st Prize in Mechanical Innovation Competition',
+          desc: 'First AI-assisted mechanical design project; National 1st Prize in Mechanical Innovation Competition (separate project)',
           status: 'done',
         },
         {
