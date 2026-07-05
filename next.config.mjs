@@ -4,7 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // GitHub Pages 可能部署在子路径，但 jinshengdong.github.io 是根路径所以不需要 basePath
+  basePath: '/jinshengdong.github.io',
+  assetPrefix: '/jinshengdong.github.io',
 };
 
 export default nextConfig;
