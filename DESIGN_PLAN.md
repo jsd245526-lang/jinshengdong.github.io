@@ -15,7 +15,7 @@
 
 ---
 
-## 设计工具调研
+## 参考项目
 
 ### taste-skill (Leonxlnx/taste-skill)
 - 46k+ stars，Vercel 赞助
@@ -34,13 +34,3 @@
 - Hay Mar Maw: `rolexstar27/Portfolio` — 同技术栈，Framer Motion
 - Awesome Demo: `Srikanta2000/awesome-demo-portfolio` — Canvas 粒子
 - Satya Portfolio: `satya00089/portfolio` — CLI 终端
-
----
-
-## 待办
-
-- [ ] Bento 网格布局改造
-- [ ] Hero 粒子背景
-- [ ] 项目卡片 3D tilt
-- [ ] 细节打磨
-- [ ] 终端彩蛋
