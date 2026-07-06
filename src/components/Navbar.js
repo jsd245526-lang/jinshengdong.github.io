@@ -1,32 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
 import LanguageToggle from './LanguageToggle';
 
 const navLinks = [
-  { path: '/', key: 'home' },
-  { path: '/projects', key: 'projects' },
-  { path: '/resume', key: 'resume' },
+  { path: '/', key: 'home', index: '01' },
+  { path: '/projects', key: 'projects', index: '02' },
+  { path: '/resume', key: 'resume', index: '03' },
 ];
 
 export default function Navbar() {
   const { t } = useLanguage();
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
   const [menuOpenPath, setMenuOpenPath] = useState(null);
-  const [scrolled, setScrolled] = useState(false);
   const menuOpen = menuOpenPath === pathname;
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Prevent body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -34,117 +27,73 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? 'glass shadow-lg shadow-black/20' : 'bg-transparent'
-        }`}
-        initial={{ y: -80 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* 左侧：名字 */}
-          <Link href="/" className="text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">
-            <span className="text-gradient">金圣栋</span>
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-[var(--rule)] bg-[color:rgba(241,239,232,0.96)]">
+        <div className="dossier-shell h-20 flex items-center justify-between gap-6">
+          <Link href="/" className="min-w-0">
+            <span className="block font-bold leading-none">金圣栋</span>
+            <span className="technical-note block mt-1 truncate">Mechanical Engineering × Applied AI</span>
           </Link>
 
-          {/* 右侧：桌面端导航 */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map(({ path, key }) => {
-              const isActive = pathname === path;
-              return (
-                <Link
-                  key={path}
-                  href={path}
-                  className={`relative px-4 py-2 text-sm rounded-lg transition-colors duration-300 ${
-                    isActive
-                      ? 'text-[var(--color-text-primary)]'
-                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
-                  }`}
-                >
-                  {t(`nav.${key}`)}
-                  {isActive && (
-                    <motion.div
-                      className="absolute inset-0 rounded-lg -z-10"
-                      style={{ background: 'var(--color-glass)' }}
-                      layoutId="navbar-active"
-                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-            <div className="ml-3">
-              <LanguageToggle />
-            </div>
+            {navLinks.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`min-h-11 px-3 flex items-center gap-2 text-sm border-b-2 transition-colors ${
+                  pathname === item.path
+                    ? 'border-[var(--mechanical)] text-[var(--graphite)]'
+                    : 'border-transparent text-[var(--muted)] hover:text-[var(--graphite)]'
+                }`}
+              >
+                <span className="font-mono text-[10px]">{item.index}</span>
+                {t(`nav.${item.key}`)}
+              </Link>
+            ))}
+            <div className="ml-4"><LanguageToggle /></div>
           </div>
 
-          {/* 右侧：移动端汉堡按钮 */}
-          <div className="flex md:hidden items-center gap-3">
+          <div className="md:hidden flex items-center gap-2">
             <LanguageToggle />
             <button
+              type="button"
+              className="min-w-11 min-h-11 border border-[var(--rule)] font-mono text-xs"
               onClick={() => setMenuOpenPath(menuOpen ? null : pathname)}
-              className="relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
               aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
             >
-              <motion.span
-                className="block w-5 h-px rounded-full"
-                style={{ background: 'var(--color-text-primary)' }}
-                animate={menuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.25 }}
-              />
-              <motion.span
-                className="block w-5 h-px rounded-full"
-                style={{ background: 'var(--color-text-primary)' }}
-                animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-                transition={{ duration: 0.15 }}
-              />
-              <motion.span
-                className="block w-5 h-px rounded-full"
-                style={{ background: 'var(--color-text-primary)' }}
-                animate={menuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.25 }}
-              />
+              {menuOpen ? 'CLOSE' : 'MENU'}
             </button>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
-      {/* 移动端菜单 */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8"
-            style={{ background: 'var(--color-bg-primary)' }}
-            initial={{ opacity: 0 }}
+            id="mobile-navigation"
+            className="fixed inset-0 z-40 bg-[var(--paper)] pt-28 px-5 md:hidden"
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: reduceMotion ? 0 : 0.15 }}
           >
-            {navLinks.map(({ path, key }, i) => {
-              const isActive = pathname === path;
-              return (
-                <motion.div
-                  key={path}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 24 }}
-                  transition={{ delay: i * 0.08, duration: 0.35 }}
-                >
+            <div className="dossier-shell">
+              <p className="technical-note mb-8">Navigation / {pathname}</p>
+              <div className="border-t-2 border-[var(--graphite)]">
+                {navLinks.map((item) => (
                   <Link
-                    href={path}
+                    key={item.path}
+                    href={item.path}
                     onClick={() => setMenuOpenPath(null)}
-                    className={`text-2xl font-semibold transition-colors ${
-                      isActive
-                        ? 'text-[var(--color-accent)]'
-                        : 'text-[var(--color-text-primary)] hover:text-[var(--color-accent)]'
-                    }`}
+                    className="min-h-16 flex items-center gap-5 border-b border-[var(--rule)] text-xl"
                   >
-                    {t(`nav.${key}`)}
+                    <span className="font-mono text-xs text-[var(--mechanical)]">{item.index}</span>
+                    {t(`nav.${item.key}`)}
                   </Link>
-                </motion.div>
-              );
-            })}
+                ))}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

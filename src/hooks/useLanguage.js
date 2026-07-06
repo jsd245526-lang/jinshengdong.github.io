@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useSyncExternalStore, useCallback } from 'react';
+import { createContext, useContext, useSyncExternalStore, useCallback, useEffect } from 'react';
 import { siteContent } from '@/data/content';
 
 const LanguageContext = createContext(null);
@@ -31,6 +31,10 @@ export function LanguageProvider({ children }) {
     getLanguageSnapshot,
     () => 'zh'
   );
+
+  useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+  }, [language]);
 
   const setLanguage = useCallback((lang) => {
     localStorage.setItem('lang', lang);

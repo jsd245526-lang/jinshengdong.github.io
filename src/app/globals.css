@@ -1,62 +1,42 @@
 @import "tailwindcss";
 
-/* ============================================
-   设计 Token — CSS 自定义属性
-   参考: COLLABORATION.md 设计 Token 章节
-   ============================================ */
-
 :root {
-  /* 背景系 */
-  --color-bg-primary: #0a0a0f;
-  --color-bg-card: #12121a;
-  --color-glass: rgba(255, 255, 255, 0.03);
-  --color-glass-border: rgba(255, 255, 255, 0.06);
-
-  /* 文字系 */
-  --color-text-primary: #f0f0f5;
-  --color-text-secondary: #a0a0b0;
-
-  /* 强调色系 */
-  --color-accent: #6366f1;         /* 靛蓝 — 已完成 / 主要操作 */
-  --color-accent-cyan: #06b6d4;    /* 青色 — 进行中 / 未来 / 高亮 */
-  --color-accent-glow: rgba(99, 102, 241, 0.4);
-
-  /* 边框 / 分割 */
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-hover: rgba(255, 255, 255, 0.10);
-
-  /* 未来态（虚线节点、占位卡片） */
-  --color-future: rgba(99, 102, 241, 0.35);
-
-  /* 映射到 Tailwind 语义变量 */
-  --background: var(--color-bg-primary);
-  --foreground: var(--color-text-primary);
+  --paper: #f1efe8;
+  --paper-raised: #f8f6ef;
+  --graphite: #20231f;
+  --muted: #666b63;
+  --rule: #c9c8bf;
+  --rule-strong: #8d9189;
+  --mechanical: #b94e2d;
+  --intelligence: #315f78;
+  --signal: #c18a24;
+  --font-cjk: "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --background: var(--paper);
+  --foreground: var(--graphite);
+  --color-bg-primary: var(--paper);
+  --color-bg-card: var(--paper-raised);
+  --color-text-primary: var(--graphite);
+  --color-text-secondary: var(--muted);
+  --color-accent: var(--mechanical);
+  --color-accent-cyan: var(--intelligence);
+  --color-border: var(--rule);
 }
-
-/* ============================================
-   Tailwind CSS v4 @theme — 让自定义值生成工具类
-   例如: text-accent, bg-bg-card, border-accent-cyan
-   ============================================ */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-accent: var(--color-accent);
-  --color-accent-cyan: var(--color-accent-cyan);
-  --color-bg-primary: var(--color-bg-primary);
-  --color-bg-card: var(--color-bg-card);
-  --color-glass: var(--color-glass);
-  --color-text-primary: var(--color-text-primary);
-  --color-text-secondary: var(--color-text-secondary);
-  --color-border: var(--color-border);
-  --color-future: var(--color-future);
-  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-accent: var(--mechanical);
+  --color-accent-cyan: var(--intelligence);
+  --color-bg-primary: var(--paper);
+  --color-bg-card: var(--paper-raised);
+  --color-text-primary: var(--graphite);
+  --color-text-secondary: var(--muted);
+  --color-border: var(--rule);
+  --font-sans: var(--font-cjk);
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
 }
-
-/* ============================================
-   全局 Reset & Body
-   ============================================ */
 
 *,
 *::before,
@@ -65,372 +45,268 @@
 }
 
 html {
-  color-scheme: dark;
   scroll-behavior: smooth;
-  scrollbar-color: rgba(99, 102, 241, 0.25) transparent;
+  scrollbar-color: var(--rule-strong) transparent;
   scrollbar-width: thin;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans);
+  background:
+    linear-gradient(rgba(32, 35, 31, 0.025) 1px, transparent 1px),
+    var(--paper);
+  background-size: 100% 32px;
+  color: var(--graphite);
+  font-family: var(--font-cjk);
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  line-height: 1.6;
 }
 
-/* 选中文字 */
 ::selection {
-  background-color: rgba(99, 102, 241, 0.30);
-  color: #ffffff;
+  background: rgba(185, 78, 45, 0.2);
 }
 
-/* 链接 */
 a {
-  color: var(--color-accent);
+  color: inherit;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
-a:hover {
-  color: var(--color-accent-cyan);
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* 图片 */
+button {
+  font: inherit;
+}
+
 img {
+  display: block;
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
-/* 焦点环 */
 *:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: 2px solid var(--intelligence);
+  outline-offset: 3px;
 }
 
-/* ============================================
-   滚动条美化（Webkit）
-   ============================================ */
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.dossier-shell {
+  width: min(1120px, calc(100% - 40px));
+  margin-inline: auto;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+.document-panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.25);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.45);
-}
-
-/* ============================================
-   玻璃拟态效果
-   ============================================ */
-
-.glass {
-  background: var(--color-glass);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  border-bottom: 1px solid var(--color-glass-border);
-}
-
-.glass-card {
-  background: var(--color-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-glass-border);
-  border-radius: 16px;
-}
-
-/* 强玻璃（更不透，适合重要浮层） */
-.glass-strong {
-  background: rgba(18, 18, 26, 0.70);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--color-border);
-}
-
-/* ============================================
-   极光渐变背景动画（Hero 专属）
-   ============================================ */
-
-.aurora-bg {
-  position: relative;
-  overflow: hidden;
-}
-
-.aurora-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(99, 102, 241, 0.25) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 80% 60%, rgba(6, 182, 212, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
-  animation: aurora 12s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.aurora-bg > * {
-  position: relative;
-  z-index: 1;
-}
-
-@keyframes aurora {
-  0% {
-    transform: scale(1) translate(0, 0);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.15) translate(-2%, 1%);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.05) translate(1%, -1%);
-    opacity: 0.9;
-  }
-}
-
-/* 卡片微光点缀 */
-.aurora-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.aurora-shimmer::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(99, 102, 241, 0.08) 0%,
-    rgba(6, 182, 212, 0.05) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-/* ============================================
-   脉冲光晕动画（成长轨迹未来节点用）
-   ============================================ */
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow:
-      0 0 8px rgba(6, 182, 212, 0.30),
-      0 0 20px rgba(6, 182, 212, 0.10);
-    border-color: rgba(99, 102, 241, 0.30);
-  }
-  50% {
-    box-shadow:
-      0 0 16px rgba(6, 182, 212, 0.55),
-      0 0 40px rgba(6, 182, 212, 0.25);
-    border-color: rgba(99, 102, 241, 0.55);
-  }
-}
-
-.pulse-glow {
-  animation: pulse-glow 2.5s ease-in-out infinite;
-}
-
-/* 慢速呼吸版本 */
-@keyframes pulse-glow-slow {
-  0%,
-  100% {
-    box-shadow:
-      0 0 4px rgba(99, 102, 241, 0.35),
-      0 0 12px rgba(99, 102, 241, 0.08);
-  }
-  50% {
-    box-shadow:
-      0 0 10px rgba(99, 102, 241, 0.35),
-      0 0 28px rgba(99, 102, 241, 0.15);
-  }
-}
-
-.pulse-glow-slow {
-  animation: pulse-glow-slow 3.6s ease-in-out infinite;
-}
-
-/* ============================================
-   Bento Grid 布局
-   ============================================ */
-
-.bento-grid {
+.section-heading {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
-  grid-auto-rows: minmax(120px, auto);
+  grid-template-columns: minmax(120px, 0.28fr) minmax(0, 1fr);
+  gap: 24px;
+  padding-top: 18px;
+  border-top: 2px solid var(--graphite);
+  margin-bottom: 40px;
 }
 
-/* 常用 bento 跨度 */
-.bento-4  { grid-column: span 4; }
-.bento-6  { grid-column: span 6; }
-.bento-8  { grid-column: span 8; }
-.bento-12 { grid-column: span 12; }
+.section-heading__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--muted);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
-/* Bento 卡片 */
-.bento-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.section-heading__index {
+  color: var(--mechanical);
+  font-weight: 700;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.85rem, 4vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+}
+
+.section-heading p {
+  max-width: 680px;
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.technical-note {
+  color: var(--muted);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.metadata-grid {
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.spec-label {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.38fr) minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.spec-label dt {
+  color: var(--muted);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.spec-label dd {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.spec-label--intelligence dd {
+  color: var(--intelligence);
+}
+
+.status-stamp {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 9px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.status-stamp--mechanical { color: var(--mechanical); }
+.status-stamp--intelligence { color: var(--intelligence); }
+.status-stamp--signal { color: #8b6014; }
+
+.evidence-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidence-list li {
   position: relative;
-  overflow: hidden;
+  padding: 12px 0 12px 24px;
+  border-bottom: 1px solid var(--rule);
 }
 
-.bento-card:hover {
-  border-color: var(--color-border-hover);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.30);
+.evidence-list li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--mechanical);
 }
 
-/* 响应式：小屏折叠为 4 列 */
-@media (max-width: 768px) {
-  .bento-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .bento-4,
-  .bento-6,
-  .bento-8,
-  .bento-12 {
-    grid-column: span 4;
-  }
-
-  .bento-card {
-    padding: 1.25rem;
-  }
-}
-
-/* ============================================
-   渐变文字 & 边框
-   ============================================ */
-
-.text-gradient {
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.border-gradient {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--color-bg-card), var(--color-bg-card)) padding-box,
-    linear-gradient(135deg, var(--color-accent), var(--color-accent-cyan)) border-box;
-}
-
-/* ============================================
-   分割线
-   ============================================ */
-
-.divider {
+.case-row {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.22fr) minmax(0, 1fr) minmax(180px, 0.32fr);
+  gap: 24px;
   width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  padding: 28px 0;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease;
 }
 
-.divider-gradient {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-accent) 20%,
-    var(--color-accent-cyan) 80%,
-    transparent 100%
-  );
+.case-row:hover {
+  background: rgba(49, 95, 120, 0.055);
+  border-color: var(--intelligence);
 }
 
-/* ============================================
-   标签 / 徽章
-   ============================================ */
+.case-row--featured {
+  padding: 36px 24px;
+  border: 2px solid var(--graphite);
+  background: var(--paper-raised);
+}
 
 .tag {
   display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.65rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.025em;
-  border: 1px solid var(--color-border);
-  background: rgba(99, 102, 241, 0.08);
-  color: var(--color-text-secondary);
-  white-space: nowrap;
+  padding: 3px 7px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.66rem;
 }
 
-.tag-accent {
-  background: rgba(99, 102, 241, 0.14);
-  border-color: rgba(99, 102, 241, 0.25);
-  color: var(--color-accent);
+.divider {
+  height: 1px;
+  background: var(--rule);
 }
 
-.tag-cyan {
-  background: rgba(6, 182, 212, 0.10);
-  border-color: rgba(6, 182, 212, 0.22);
-  color: var(--color-accent-cyan);
-}
-
-/* ============================================
-   卡片悬停效果
-   ============================================ */
-
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
-}
-
-/* ============================================
-   入场动画
-   ============================================ */
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
+@media (max-width: 767px) {
+  .dossier-shell {
+    width: min(100% - 40px, 1120px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .section-heading,
+  .case-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .section-heading {
+    margin-bottom: 28px;
+  }
+
+  .case-row--featured {
+    padding: 24px 18px;
   }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out forwards;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.animate-delay-100 { animation-delay: 0.1s; }
-.animate-delay-200 { animation-delay: 0.2s; }
-.animate-delay-300 { animation-delay: 0.3s; }
+@media print {
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
 
-/* 闪烁光标 */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
+  body {
+    background: #fff;
+    color: #111;
+  }
 
-.animate-blink {
-  animation: blink 1s step-end infinite;
+  .resume-document {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  a {
+    color: inherit;
+  }
 }
