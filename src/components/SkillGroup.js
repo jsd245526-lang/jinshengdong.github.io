@@ -2,9 +2,24 @@
 
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Bot, Cog, ClipboardList, FileText, Check, Sparkles } from 'lucide-react';
+
+// 将 content.js 里的 emoji 映射为 Lucide 组件
+const iconMap = {
+  '🤖': Bot,
+  '⚙️': Cog,
+  '📋': ClipboardList,
+  '📄': FileText,
+  '🔗': Sparkles,
+  '🛠️': Cog,
+  '🔬': Sparkles,
+};
+
+const fallbackIcon = Sparkles;
 
 function SkillCategory({ category, icon, items, variant }) {
   const isCurrent = variant === 'current';
+  const IconComponent = iconMap[icon] || fallbackIcon;
 
   return (
     <motion.div
@@ -22,7 +37,10 @@ function SkillCategory({ category, icon, items, variant }) {
     >
       {/* 图标 + 分类名 */}
       <div className="flex items-center gap-2 mb-3">
-        <span className="text-xl">{icon}</span>
+        <IconComponent
+          size={18}
+          style={{ color: isCurrent ? 'var(--color-accent)' : 'var(--color-accent-cyan)' }}
+        />
         <h4 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
           {category}
         </h4>
@@ -80,10 +98,10 @@ export default function SkillGroup() {
           >
             <div className="flex items-center gap-3 mb-6">
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
                 style={{ background: 'var(--color-accent)', color: '#fff' }}
               >
-                ✓
+                <Check size={16} strokeWidth={3} />
               </div>
               <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>
                 {t('skills.currentLabel')}
@@ -105,13 +123,13 @@ export default function SkillGroup() {
           >
             <div className="flex items-center gap-3 mb-6">
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
                 style={{
                   border: '1px dashed var(--color-accent-cyan)',
                   color: 'var(--color-accent-cyan)',
                 }}
               >
-                ◈
+                <Sparkles size={16} />
               </div>
               <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>
                 {t('skills.learningLabel')}

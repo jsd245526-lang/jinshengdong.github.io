@@ -46,16 +46,32 @@ export default function HomePage() {
           </motion.div>
 
           {/* 项目卡片网格 */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.08 } },
+              hidden: {},
+            }}
+          >
             {previewProjects.map((project, i) => (
-              <ProjectCard
+              <motion.div
                 key={project.id}
-                project={project}
-                index={i}
-                onClick={() => router.push('/projects')}
-              />
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+                }}
+              >
+                <ProjectCard
+                  project={project}
+                  index={i}
+                  onClick={() => router.push('/projects')}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* 查看全部 */}
           <motion.div

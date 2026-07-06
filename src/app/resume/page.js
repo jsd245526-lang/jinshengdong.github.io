@@ -3,6 +3,14 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
 import Timeline from '@/components/Timeline';
+import { Trophy, Medal, Award, ScrollText, Star, BadgeCheck } from 'lucide-react';
+
+const awardLevelIcons = {
+  national: Trophy,
+  province: Medal,
+  city: Award,
+  school: ScrollText,
+};
 
 const awardLevelColors = {
   national: { bg: 'rgba(99, 102, 241, 0.15)', color: 'var(--color-accent)' },
@@ -21,6 +29,7 @@ const levelLabels = {
 function AwardBadge({ award }) {
   const { language } = useLanguage();
   const colors = awardLevelColors[award.level] || awardLevelColors.school;
+  const Icon = awardLevelIcons[award.level] || ScrollText;
 
   return (
     <motion.div
@@ -32,7 +41,7 @@ function AwardBadge({ award }) {
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.02, borderColor: colors.color }}
     >
-      <span className="text-base">{award.level === 'national' ? '🏆' : award.level === 'province' ? '🥇' : award.level === 'city' ? '🥈' : '📜'}</span>
+      <Icon size={16} />
       <span>{award.text}</span>
     </motion.div>
   );
@@ -147,7 +156,7 @@ export default function ResumePage() {
                     className="text-sm flex items-center gap-2"
                     style={{ color: 'var(--color-text-secondary)' }}
                   >
-                    <span className="text-base">🎖️</span>
+                    <Star size={16} style={{ color: 'var(--color-accent-cyan)' }} />
                     {item}
                   </li>
                 ))}
@@ -172,7 +181,7 @@ export default function ResumePage() {
                     className="text-sm flex items-center gap-2"
                     style={{ color: 'var(--color-text-secondary)' }}
                   >
-                    <span className="text-base">📜</span>
+                    <BadgeCheck size={16} style={{ color: 'var(--color-text-secondary)' }} />
                     {item}
                   </li>
                 ))}

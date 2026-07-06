@@ -1,23 +1,40 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useSyncExternalStore, useCallback } from 'react';
 import { siteContent } from '@/data/content';
 
 const LanguageContext = createContext(null);
+const languageChangeEvent = 'languagechange';
+
+function getLanguageSnapshot() {
+  const saved = localStorage.getItem('lang');
+  return saved === 'zh' || saved === 'en' ? saved : 'zh';
+}
+
+function subscribeToLanguage(callback) {
+  const onStorage = (event) => {
+    if (event.key === 'lang') callback();
+  };
+
+  window.addEventListener('storage', onStorage);
+  window.addEventListener(languageChangeEvent, callback);
+
+  return () => {
+    window.removeEventListener('storage', onStorage);
+    window.removeEventListener(languageChangeEvent, callback);
+  };
+}
 
 export function LanguageProvider({ children }) {
-  const [language, setLanguageState] = useState('zh');
-
-  useEffect(() => {
-    const saved = localStorage.getItem('lang');
-    if (saved === 'zh' || saved === 'en') {
-      setLanguageState(saved);
-    }
-  }, []);
+  const language = useSyncExternalStore(
+    subscribeToLanguage,
+    getLanguageSnapshot,
+    () => 'zh'
+  );
 
   const setLanguage = useCallback((lang) => {
-    setLanguageState(lang);
     localStorage.setItem('lang', lang);
+    window.dispatchEvent(new Event(languageChangeEvent));
   }, []);
 
   const t = useCallback(

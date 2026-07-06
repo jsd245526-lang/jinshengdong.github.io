@@ -16,19 +16,15 @@ const navLinks = [
 export default function Navbar() {
   const { t } = useLanguage();
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpenPath, setMenuOpenPath] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const menuOpen = menuOpenPath === pathname;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  // Close menu on route change
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -87,7 +83,7 @@ export default function Navbar() {
           <div className="flex md:hidden items-center gap-3">
             <LanguageToggle />
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() => setMenuOpenPath(menuOpen ? null : pathname)}
               className="relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
               aria-label="Toggle menu"
             >
@@ -137,7 +133,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={path}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpenPath(null)}
                     className={`text-2xl font-semibold transition-colors ${
                       isActive
                         ? 'text-[var(--color-accent)]'
