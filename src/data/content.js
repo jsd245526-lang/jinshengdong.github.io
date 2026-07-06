@@ -20,9 +20,14 @@ export const siteContent = {
     // ========== Hero ==========
     hero: {
       name: '金圣栋',
-      tagline: '机械制造 × AI · 探索进行中',
+      recordId: 'ME × AI / 006',
+      tagline: '机械设计是对象，AI 是改进设计与交付的方法',
       subtitle: '浙江科技大学 · 机械制造及其自动化 · 2028届本科',
       jobTarget: '求职意向：AI产品方向实习岗',
+      discipline: '机械制造及其自动化',
+      method: 'AI 辅助设计、自动出图与协作流程',
+      evidence: '全国大学生机械创新设计大赛一等奖',
+      status: '本科在读 · 2028 届',
       scrollHint: '往下看',
     },
 
@@ -276,9 +281,14 @@ export const siteContent = {
 
     hero: {
       name: 'Jin Shengdong',
-      tagline: 'Mechanical Engineering × AI · Exploring',
+      recordId: 'ME × AI / 006',
+      tagline: 'Mechanical design is the object. AI improves the way it is designed and delivered.',
       subtitle: 'Zhejiang University of Science & Technology · Mechanical Engineering · Class of 2028',
       jobTarget: 'Seeking: AI Product Internship',
+      discipline: 'Mechanical Manufacturing & Automation',
+      method: 'AI-assisted design, automated drafting, and delivery workflows',
+      evidence: 'National 1st Prize · Mechanical Innovation Design Competition',
+      status: 'Undergraduate · Class of 2028',
       scrollHint: 'Scroll down',
     },
 

@@ -1,85 +1,32 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { StatusStamp } from './DossierUI';
 
-export default function ProjectCard({ project, index, onClick }) {
+export default function ProjectCard({ project, index, onClick, featured = false }) {
   return (
-    <motion.div
-      className="glass-card p-6 cursor-pointer hover-lift group"
+    <button
+      type="button"
+      className={`case-row ${featured ? 'case-row--featured' : ''}`}
       onClick={() => onClick(project)}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.45 }}
-      layoutId={`project-card-${project.id}`}
     >
-      {/* 获奖标签 */}
-      {project.award && (
-        <div
-          className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium mb-3"
-          style={{
-            background: project.awardLevel === 'national'
-              ? 'rgba(99, 102, 241, 0.15)'
-              : 'rgba(6, 182, 212, 0.12)',
-            color: project.awardLevel === 'national'
-              ? 'var(--color-accent)'
-              : 'var(--color-accent-cyan)',
-          }}
-        >
-          🏆 {project.award}
-        </div>
-      )}
-
-      {/* 项目标题 */}
-      <h3
-        className="text-lg font-bold mb-1 group-hover:text-[var(--color-accent)] transition-colors"
-        style={{ color: 'var(--color-text-primary)' }}
-      >
-        {project.title}
-      </h3>
-
-      {/* 副标题 */}
-      <p className="text-xs mb-3" style={{ color: 'var(--color-text-secondary)' }}>
-        {project.subtitle}
-      </p>
-
-      {/* 时间 & 角色 */}
-      <div className="flex flex-wrap gap-3 text-xs mb-4" style={{ color: 'var(--color-text-secondary)' }}>
-        <span className="flex items-center gap-1">
-          <span style={{ color: 'var(--color-accent-cyan)' }}>📅</span> {project.period}
-        </span>
-        <span className="flex items-center gap-1">
-          <span style={{ color: 'var(--color-accent-cyan)' }}>👤</span> {project.role}
-        </span>
+      <div>
+        <p className="technical-note text-[var(--mechanical)]">CASE / {String(index + 1).padStart(2, '0')}</p>
+        <p className="mt-3 font-mono text-xs text-[var(--muted)]">{project.period}</p>
       </div>
-
-      {/* 标签 */}
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="px-2 py-0.5 rounded text-xs"
-            style={{
-              background: 'rgba(255,255,255,0.04)',
-              color: 'var(--color-text-secondary)',
-              border: '1px solid var(--color-glass-border)',
-            }}
-          >
-            {tag}
-          </span>
-        ))}
+      <div>
+        {project.award && <StatusStamp tone="signal">{project.award}</StatusStamp>}
+        <h3 className={`mt-3 font-bold tracking-tight ${featured ? 'text-3xl' : 'text-xl'}`}>{project.title}</h3>
+        <p className="mt-2 text-sm text-[var(--muted)]">{project.subtitle}</p>
+        <p className="mt-5 text-sm leading-relaxed">{project.background}</p>
       </div>
-
-      {/* 成长标签 */}
-      {project.growthTag && (
-        <div
-          className="flex items-center gap-1.5 text-xs font-medium"
-          style={{ color: 'var(--color-accent-cyan)' }}
-        >
-          <span>↗</span>
-          {project.growthTag}
+      <div>
+        <p className="technical-note">Role</p>
+        <p className="mt-2 text-sm font-semibold">{project.role}</p>
+        <div className="mt-5 flex flex-wrap gap-1.5">
+          {project.tags.slice(0, 4).map((tag) => <span className="tag" key={tag}>{tag}</span>)}
         </div>
-      )}
-    </motion.div>
+        <p className="mt-6 text-sm text-[var(--intelligence)]">Open dossier →</p>
+      </div>
+    </button>
   );
 }
